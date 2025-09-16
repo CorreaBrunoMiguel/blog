@@ -17,26 +17,35 @@ import AdminLogin from './pages/Admin/AdminLogin';
 
 const App = () => {
   return (
-    <Router>
-      <Routes>
-        {/* Rotas Padrão */}
-        <Route path="/" element={<BlogLanding />} />
-        <Route path="/:slug" element={<BlogPostView />} />
-        <Route path="/tag/:tagName" element={<PostByTags />} />
-        <Route path="/search" element={<SearchPosts />} />
+    <div>
+      <Router>
+        <Routes>
+          {/* Rotas Padrão */}
+          <Route path="/" element={<BlogLanding />} />
+          <Route path="/:slug" element={<BlogPostView />} />
+          <Route path="/tag/:tagName" element={<PostByTags />} />
+          <Route path="/search" element={<SearchPosts />} />
+          {/* Rota Admin */}
+          <Route element={<PrivateRoute allowedRoles={['admin']} />}>
+            <Route path="/admin/dashboard" element={<Dashboard />} />
+            <Route path="/admin/posts" element={<BlogPosts />} />
+            <Route path="/admin/create" element={<BlogPostEditor />} />
+            <Route path="/admin/edit/:slug" element={<BlogPostEditor isEdit={true} />} />
+            <Route path="/admin/comments" element={<Comments />} />
+          </Route>
+          <Route path="/admin-login" element={<AdminLogin />} />
+        </Routes>
+      </Router>
 
-        {/* Rota Admin */}
-        <Route element={<PrivateRoute allowedRoles={['admin']} />}>
-          <Route path="/admin/dashboard" element={<Dashboard />} />
-          <Route path="/admin/posts" element={<BlogPosts />} />
-          <Route path="/admin/create" element={<BlogPostEditor />} />
-          <Route path="/admin/edit/:slug" element={<BlogPostEditor isEdit={true} />} />
-          <Route path="/admin/comments" element={<Comments />} />
-        </Route>
-
-        <Route path="/admin-login" element={<AdminLogin />} />
-      </Routes>
-    </Router>
+      <Toaster
+        toastOptions={{
+          className: '',
+          style: {
+            fontSize: '13px',
+          },
+        }}
+      />
+    </div>
   );
 };
 
